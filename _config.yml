@@ -4,7 +4,7 @@ logo:             site-logo.png
 disqus_shortname: 
 search:           true
 #Comment out url when working locally to resolve base urls correctly
-url:              http://your-website.com
+url:              http://bitoiu.github.io/
 
 # Owner/author information
 owner:
