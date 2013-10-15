@@ -1,5 +1,5 @@
-title:            Site Title
-description:      Describe your website here.
+title:            My title
+description:      loose and lost thoughts
 logo:             site-logo.png
 disqus_shortname: 
 search:           true
@@ -8,7 +8,7 @@ url:              http://bitoiu.github.io/
 
 # Owner/author information
 owner:
-  name:           Your Name
+  name:           Vitor Monteiro
   avatar:         bio-photo.jpg
   email:          you@email.com
   # Social networking links used in footer. Update and remove as you like.
@@ -24,7 +24,7 @@ owner:
   google_plus:    
 
 # Analytics and webmaster tools stuff goes here
-google_analytics:   
+google_analytics: UA-44894619-1
 google_verify:      
 # https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
 bing_verify:         
@@ -43,7 +43,7 @@ links:
     external: true
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-timezone:    America/New_York
+timezone:    Europe/London
 future:      true
 pygments:    true
 markdown:    kramdown
