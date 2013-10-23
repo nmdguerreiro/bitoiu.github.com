@@ -1,25 +1,22 @@
-title:            My title
-description:      loose and lost thoughts
+title:            Vitor Monteiro
+description:      loose thoughts
 logo:             site-logo.png
 disqus_shortname: 
 search:           true
 #Comment out url when working locally to resolve base urls correctly
-url:              http://bitoiu.github.io/
+#url:              http://bitoiu.github.io/
 
 # Owner/author information
 owner:
   name:           Vitor Monteiro
-  avatar:         bio-photo.jpg
-  email:          you@email.com
+  avatar:         vitorEgypt.jpg
+  email:          vmrmonteiro@email.com
   # Social networking links used in footer. Update and remove as you like.
-  twitter:        
-  facebook:       
-  github:         
-  stackexchange:  
-  linkedin:       
-  instagram:      
-  flickr:         
-  tumblr:         
+  # twitter: bitoiu
+  github: bitoiu
+  stackexchange: http://stackoverflow.com/users/1174076/bitoiu
+  linkedin: vitormonteiro
+  facebook: vitor.m.monteiro
   # For Google Authorship https://plus.google.com/authorship
   google_plus:    
 
@@ -36,11 +33,6 @@ links:
     url: /about
   - title: Articles
     url: /articles
-  - title: Theme Setup
-    url: /theme-setup
-  - title: Made Mistakes
-    url: http://mademistakes.com
-    external: true
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    Europe/London
