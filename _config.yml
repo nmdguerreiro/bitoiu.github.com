@@ -1,10 +1,10 @@
 title:            Vitor Monteiro
-description:      loose thoughts
-logo:             site-logo.png
+description:      leave while you can
+logo:             vm-logo.png
 disqus_shortname: 
 search:           true
 #Comment out url when working locally to resolve base urls correctly
-#url:              http://bitoiu.github.io/
+url:              http://bitoiu.github.io/
 
 # Owner/author information
 owner:
@@ -31,8 +31,8 @@ bing_verify:
 links:
   - title: About
     url: /about
-  - title: Articles
-    url: /articles
+#  - title: Articles
+#    url: /posts
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:    Europe/London

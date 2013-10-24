@@ -1,33 +1,30 @@
 ---
 layout: page
 permalink: /about/index.html
-title: About the Jekyll Theme
-tags: [Jekyll, theme, simple, minimal, minimalism, responsive]
-modified: 2013-09-13
+title: What's there to say?
+tags: [bitoiu, aboutme]
+modified: 2013-10-25
 image:
-  feature: so-simple-sample-image-4.jpg
-  credit: Michael Rose
-  creditlink: http://mademistakes.com
+  feature: portoAtDawn.jpg
+  credit: Nuno Guerreiro
+  creditlink: http://www.flickr.com/photos/nmdguerreiro/
 ---
 
-Looking for a simple, responsive, theme for your Jekyll powered blog? Well look no further. Here be **So Simple Theme**, the followup to [**Minimal Mistakes**](http://mmistakes.github.io/minimal-mistakes) --- by designer slash illustrator [Michael Rose](http://mademistakes).
+If in a year's time I have 5 posts in this blog, someone buy me a beer. If I have 10 buy be a nice dinner. If I have more than that, well,  don't know what happen, I've always been unable to maintain a personal website/blog.
 
-## So Simple Theme is all about:
+## Love/Hate
 
-* Responsive templates. Looking good on mobile, tablet, and desktop.
-* Gracefully degrading in older browsers. Compatible with Internet Explorer 9+ and all modern browsers.
-* Minimal embellishments and subtle animations. 
-* Readable typography to make your words shine.
-* Support for large images to call out your favorite posts.
-* Disqus comments if you choose to enable.
-* Simple and clear permalink structure[^1].
-* Tags for [Open Graph](https://developers.facebook.com/docs/opengraph/) and [Twitter Cards](https://dev.twitter.com/docs/cards) for a better social sharing experience.
-* Vanilla [custom 404 page]({{ site.url }}/404.html) to get you started.
-* Stylesheets for Pygments and Coderay [syntax highlighting](http://mmistakes.github.io/articles/so-simple-theme/code-highlighting-post/) to make your code examples look snazzy.
-* Simple search that overlays results based on post title.
-* [Grunt build script]({{ site.url }}/theme-setup/index.html#theme-development) for easier theme development.
-* [Sitemap](https://github.com/mmistakes/so-simple-theme/blob/master/sitemap.xml) for search engines
+Likes and dislikes are probably the quickest way to tell if you're going to get along for with someone, and some say we are more bound by the things we hate, so... I hate people that won't shut up during tech talks next to me (brand new), I hate the guy on the tube that is trying to have a baby with me (there's no more space). I hate tool boots, since I never understood why they are so expensive and I absolutely hate bullfights, there's no way you can tell me that's culture and/or tradition.
 
-<a markdown="0" href="{{ site.url }}/theme-setup" class="btn">Install Minimal Mistakes Theme</a>
+I love food, LeBron James, Porto, my friends, food and also a good scare to remind myself I'm not dead yet.
 
-[^1]: Example: *domain.com/category-name/post-title*
+## What do I do for money?
+
+Depends how much you offer (wink)
+
+Professionally I'm a Tech Lead at UBS Investment Bank in London and before I've worked at Alert Life Sciences Computing back in Portugal. I like software development of all sorts, but I've mainly spend these last years doing web development.
+
+## What else?
+
+It's 33 past midnight when I'm writing this up, so only 30min left another Heat game.
+
