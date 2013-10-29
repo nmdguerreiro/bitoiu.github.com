@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tesla Motors: honest business"
+title: "Tesla Motor's Electric Feel"
 description: "CEOs are never this honest, good to find one for a change"
 category: finance
 tags: [finance, tesla]

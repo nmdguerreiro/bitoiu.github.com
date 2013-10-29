@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Venn - lessons learned"
+title: "Venn"
 description: "What I've learned, remembered and forgot again while writting venn"
 category: tech
 tags: [tech, js, venn]
