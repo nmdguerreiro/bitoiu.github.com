@@ -2,10 +2,10 @@
 layout: page
 permalink: /about/index.html
 title: What's there to say?
-tags: [bitoiu, aboutme]
+tags: [aboutme]
 modified: 2013-10-25
 image:
-  feature: portoAtDawn.jpg
+  feature: porto-at-dawn.jpg
   credit: Nuno Guerreiro
   creditlink: http://www.flickr.com/photos/nmdguerreiro/
 ---

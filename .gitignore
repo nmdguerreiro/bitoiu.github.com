@@ -7,3 +7,4 @@ node_modules
 Gemfile.lock
 .idea
 *.iml
+*.psd

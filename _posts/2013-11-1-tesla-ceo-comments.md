@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "Testing Readability with a Bunch of Text"
-description: "A ton of text to test readability."
-category: articles
-tags: [sample post, readability, test, intro]
+title: "Tesla Motors: honest business"
+description: "CEOs are never this honest, good to find one for a change"
+category: finance
+tags: [finance, tesla]
 image:
-  feature: so-simple-sample-image-2.jpg
-  credit: Michael Rose
-  creditlink: http://mademistakes.com
+  feature: city-image.jpg
+  credit: Nuno Guerreiro
+  creditlink: http://bitoiu.github.io/
 comments: true  
 ---
 
