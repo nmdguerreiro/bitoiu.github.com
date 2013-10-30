@@ -38,41 +38,73 @@ set.union([1,2,3])
 // and now to get the current array
 set.result()
 
-{% endhighlight css %}
+{% endhighlight javascript %}
 
 It hurts to think I initially looked at this and saw a good enough solution, it was not. The `result` operation just seems excessive, and since I return an array at that point, I cannot chain it afterwards. The other drawback is that I cannot chain to the constructor, unless I enclose the creation within a pair of brackets.
 
+## array approach
+
+Gladly I know a guy or two that do amazing code reviews and one of them, [@sammyt](https://github.com/sammyt) asked me if I though about just making it a plain array, much like [d3](http://d3js.org/). Yes sir, I want it to be just a plain array.
+
+Before I go into the code aspect of it, this is not a lesson learned, but something I recommend everyone to do as much as they can. Get someone else's opinion, discuss it, post it at [codereview](http://codereview.stackexchange.com/). It's the best way to learn.
+
+So after this chat [@sammyt](https://github.com/sammyt) pointed me to the piece of code that creates an array sub-class. By array sub-class I'm referring to adding methods to an array object which is looks like this:
+
+{% highlight javascript %}
+
+var arraySubClass = [].__proto__
+    ? function(array, prototype) {
+        array.__proto__ = prototype
+    }
+    : function(array, prototype) {
+        for (var property in prototype) array[property] = prototype[property]
+    }
+
+{% endhighlight javascript %}
+
+The else function is to support IE6, 7, 8 and Opera, which don't implement `__proto__`. The second argument `prototype` is just an object that lists a set of methods to decorate the first array with.
+
+Suddenly I don't need a `result` operation, because the variable is already an array. I can also chain everything and get a result back in one line, making this API miles away from the previous one:
+
+{% highlight javascript %}
+
+var set = venn.create([1,2,3])
+    .union([2,3,4])
+    .union([1,2,3]
+
+console.log(set) // [2,3,4,1]
+
+{% endhighlight javascript %}
 
 
-## Cupidatat 90's lo-fi authentic try-hard
+## gotchas
 
-In pug Portland incididunt mlkshk put a bird on it vinyl quinoa. Terry Richardson shabby chic +1, scenester Tonx excepteur tempor fugiat voluptate fingerstache aliquip nisi next level. Farm-to-table hashtag Truffaut, Odd Future ex meggings gentrify single-origin coffee try-hard 90's. 
+There were a couple of things that although simple to solve were not part of my plans initially.
 
-* Sartorial hoodie 
-* Labore viral forage
-* Tote bag selvage 
-* DIY exercitation et id ugh tumblr church-key
+### iterable properties
 
-Incididunt umami sriracha, ethical fugiat VHS ex assumenda yr irure direct trade. Marfa Truffaut bicycle rights, kitsch placeat Etsy kogi asymmetrical. Beard locavore flexitarian, kitsch photo booth hoodie plaid ethical readymade leggings yr.
+So I re-wrote my tests with the new API based on the design showed above. When these were all failing it was time for the implementation. My first approach to define the `union` method was something like this:
 
-Aesthetic odio dolore, meggings disrupt qui readymade stumptown brunch Terry Richardson pour-over gluten-free. Banksy american apparel in selfies, biodiesel flexitarian organic meh wolf quinoa gentrify banjo kogi. Readymade tofu ex, scenester dolor umami fingerstache occaecat fashion axe Carles jean shorts minim. Keffiyeh fashion axe nisi Godard mlkshk dolore. Lomo you probably haven't heard of them eu non, Odd Future Truffaut pug keytar meggings McSweeney's Pinterest cred. Etsy literally aute esse, eu bicycle rights qui meggings fanny pack. Gentrify leggings pug flannel duis.
+{% highlight javascript %}
 
-## Forage occaecat cardigan qui
+// could as well be an object
+var venn_prototype = []
 
-Fashion axe hella gastropub lo-fi kogi 90's aliquip +1 veniam delectus tousled. Cred sriracha locavore gastropub kale chips, iPhone mollit sartorial. Anim dolore 8-bit, pork belly dolor photo booth aute flannel small batch. Dolor disrupt ennui, tattooed whatever salvia Banksy sartorial roof party selfies raw denim sint meh pour-over. Ennui eu cardigan sint, gentrify iPhone cornhole. 
+venn_prototype.union = function () {
+    // do pretty things
+}
 
-> Whatever velit occaecat quis deserunt gastropub, leggings elit tousled roof party 3 wolf moon kogi pug blue bottle ea. Fashion axe shabby chic Austin quinoa pickled laborum bitters next level, disrupt deep v accusamus non fingerstache.
+{% endhighlight javascript %}
 
-Tote bag asymmetrical elit sunt. Occaecat authentic Marfa, hella McSweeney's next level irure veniam master cleanse. Sed hoodie letterpress artisan wolf leggings, 3 wolf moon commodo ullamco. Anim occupy ea labore Terry Richardson. Tofu ex master cleanse in whatever pitchfork banh mi, occupy fugiat fanny pack Austin authentic. Magna fugiat 3 wolf moon, labore McSweeney's sustainable vero consectetur. Gluten-free disrupt enim, aesthetic fugiat jean shorts trust fund keffiyeh magna try-hard.
+Awesome right? Imagine a simple array `[1,2,3]`, I pass it to my `venn.create` and this simple array now has an additional method named `union`. I can still use the array as I would do normally, but I can also call my own operations on it.
 
-## Hoodie Duis
+So I run the tests, and what comes out immediately as a problem?
 
-Actually salvia consectetur, hoodie duis lomo YOLO sunt sriracha. Aute pop-up brunch farm-to-table odio, salvia irure occaecat. Sriracha small batch literally skateboard. Echo Park nihil hoodie, aliquip forage artisan laboris. Trust fund reprehenderit nulla locavore. Stumptown raw denim kitsch, keffiyeh nulla twee dreamcatcher fanny pack ullamco 90's pop-up est culpa farm-to-table. Selfies 8-bit do pug odio.
+{% highlight javascript %}
 
-### Thundercats Ho!
+expected = [1,2,3]
+returned = [1,2,3, function]
 
-Fingerstache thundercats Williamsburg, deep v scenester Banksy ennui vinyl selfies mollit biodiesel duis odio pop-up. Banksy 3 wolf moon try-hard, sapiente enim stumptown deep v ad letterpress. Squid beard brunch, exercitation raw denim yr sint direct trade. Raw denim narwhal id, flannel DIY McSweeney's seitan. Letterpress artisan bespoke accusamus, meggings laboris consequat Truffaut qui in seitan. Sustainable cornhole Schlitz, twee Cosby sweater banh mi deep v forage letterpress flannel whatever keffiyeh. Sartorial cred irure, semiotics ethical sed blue bottle nihil letterpress.
+{% endhighlight javascript %}
 
-Occupy et selvage squid, pug brunch blog nesciunt hashtag mumblecore skateboard yr kogi. Ugh small batch swag four loko. Fap post-ironic qui tote bag farm-to-table american apparel scenester keffiyeh vero, swag non pour-over gentrify authentic pitchfork. Schlitz scenester lo-fi voluptate, tote bag irony bicycle rights pariatur vero Vice freegan wayfarers exercitation nisi shoreditch. Chambray tofu vero sed. Street art swag literally leggings, Cosby sweater mixtape PBR lomo Banksy non in pitchfork ennui McSweeney's selfies. Odd Future Banksy non authentic.
-
-Aliquip enim artisan dolor post-ironic. Pug tote bag Marfa, deserunt pour-over Portland wolf eu odio intelligentsia american apparel ugh ea. Sunt viral et, 3 wolf moon gastropub pug id. Id fashion axe est typewriter, mlkshk Portland art party aute brunch. Sint pork belly Cosby sweater, deep v mumblecore kitsch american apparel. Try-hard direct trade tumblr sint skateboard. Adipisicing bitters excepteur biodiesel, pickled gastropub aute veniam.
+Oops, since javascript
