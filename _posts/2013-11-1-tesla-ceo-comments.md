@@ -7,7 +7,7 @@ tags: [finance, tesla]
 image:
   feature: city-image.jpg
   credit: Nuno Guerreiro
-  creditlink: http://bitoiu.github.io/
+  creditlink: http://www.flickr.com/photos/nmdguerreiro/
 comments: true  
 ---
 

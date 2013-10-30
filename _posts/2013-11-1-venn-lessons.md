@@ -1,19 +1,48 @@
 ---
 layout: post
-title: "Venn"
+title: "Venn lessons"
 description: "What I've learned, remembered and forgot again while writting venn"
 category: tech
 tags: [tech, js, venn]
 image:
   feature: tech-image.jpg
   credit: Vitor Monteiro
-  creditlink: http://www.flickr.com/photos/nmdguerreiro/
+  creditlink: http://bitoiu.github.io/
 comments: true  
 ---
 
-Portland in shoreditch Vice, labore typewriter pariatur hoodie fap sartorial Austin. Pinterest literally occupy Schlitz forage. Odio ad blue bottle vinyl, 90's narwhal commodo bitters pour-over nostrud. Ugh est hashtag in, fingerstache adipisicing laboris esse Pinterest shabby chic Portland. Shoreditch bicycle rights anim, flexitarian laboris put a bird on it vinyl cupidatat narwhal. Hashtag artisan skateboard, flannel Bushwick nesciunt salvia aute fixie do plaid post-ironic dolor McSweeney's. Cliche pour-over chambray nulla four loko skateboard sapiente hashtag.
+One of these days I was writing a node command tool, the 10th or so mini-project I wouldn't finish. This pet-project, which I still plan to finish but not as a node command tool, is a a tool to quickly delete local and remote git branches. Although in my cloud projects this is not an issue, especially since after GitHub added *delete your branch* after a pull request. At work though, branches tend to linger around, and it's understandable for a number a reasons which I'm bored to enumerate. Whatever the view here, I still think it's much better to have a lot of zombie branches, than deleting a branch you assumed it was ok to get rid of... please don't do that. Anyway, more of this clean-up tool another day.
 
-Vero laborum commodo occupy. Semiotics voluptate mumblecore pug. Cosby sweater ullamco quinoa ennui assumenda, sapiente occupy delectus lo-fi. Ea fashion axe Marfa cillum aliquip. Retro Bushwick keytar cliche. Before they sold out sustainable gastropub Marfa readymade, ethical Williamsburg skateboard brunch qui consectetur gentrify semiotics. Mustache cillum irony, fingerstache magna pour-over keffiyeh tousled selfies.
+While writing the first prototypes, I came upon a pattern where I would have list of branches that I needed to merge or intersect. For example, if I wanted to delete only merged local branches, that's an intersection between all local branches with all local merged branches. I though I would give this approach a try, knowing from the start that in terms of performance I could eventually do better, but in terms of code simplicity I assumed this would be a better choice. When I goggled for set operation libraries, a lot of the usual suspects came in the results, most notably [underscore](http://underscorejs.org). That was it, if I wanted I could just add this library to my dependencies and go ahead, but the reason I go home and code is to be able to work on whatever I feel like, and that particular night, I felt like I really wanted to use a fluent API instead of underscore's good, community approved and tested but imperative solution. Really, I was making excuses to do my own standalone library.
+
+##[venn](http://bitoiu.github.io/venn/)
+
+So I've committed myself to do a library that supported set operations, union and intersections to start off.
+
+I named it [venn](http://bitoiu.github.io/venn/).
+
+## class approach
+
+Because I still have a bit of OO in my blood and because the more I code in Javascript the less I feel the need to implement classes, I thought I had upon me a very good chance to do exactly that: encapsulate all these nice set operations into a neatly little class called venn.
+
+As soon as I started writing the tests, something didn't feel quite right, but I couldn't put a finger on it. I can't remember precisely but I had something which should be very similar to this:
+
+{% highlight javascript %}
+
+var set = new Venn([])
+
+// so here I have my fluent API
+set.union([1,2,3])
+   .union([2,3,4])
+
+// and now to get the current array
+set.result()
+
+{% endhighlight css %}
+
+It hurts to think I initially looked at this and saw a good enough solution, it was not. The `result` operation just seems excessive, and since I return an array at that point, I cannot chain it afterwards. The other drawback is that I cannot chain to the constructor, unless I enclose the creation within a pair of brackets.
+
+
 
 ## Cupidatat 90's lo-fi authentic try-hard
 
