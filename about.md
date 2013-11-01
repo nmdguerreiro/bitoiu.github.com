@@ -26,5 +26,5 @@ Professionally I'm a Tech Lead at UBS Investment Bank in London and before I've 
 
 ## What else?
 
-It's 33 past midnight when I'm writing this up, so only 30min left another Heat game.
+I'm an adrenaline junkier and sports fanatic.
 

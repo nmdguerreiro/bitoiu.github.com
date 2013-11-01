@@ -2,7 +2,7 @@
 layout: post
 title: "Tesla Motor's Electric Feel"
 description: "CEOs are never this honest, good to find one for a change"
-category: finance
+category: draft
 tags: [finance, tesla]
 image:
   feature: city-image.jpg
