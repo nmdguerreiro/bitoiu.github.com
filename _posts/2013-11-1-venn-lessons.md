@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Venn lessons"
-description: "What I've learned, remembered and forgot again while writting venn"
+title: "meet venn"
+description: "lessons learned and re-learned when writting venn"
 category: tech
 tags: [tech, js, venn]
 image:
