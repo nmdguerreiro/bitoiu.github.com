@@ -92,13 +92,15 @@ var venn_prototype = []
 
 venn_prototype.union = function () {
     // do pretty things
+
+// show the sub class here
 }
 
 {% endhighlight javascript %}
 
 Awesome right? Imagine a simple array `[1,2,3]`, I pass it to my `venn.create` and this simple array now has an additional method named `union`. I can still use the array as I would do normally, but I can also call my own operations on it.
 
-So I run the tests, and what comes out immediately as a problem?
+So I run the tests, and this is what I get:
 
 {% highlight javascript %}
 
@@ -107,4 +109,112 @@ returned = [1,2,3, function]
 
 {% endhighlight javascript %}
 
-Oops, since javascript
+When adding the `union` function as a simple property, the array treats it just as another element. No big deal, properties in javascript can be defined with a bit more context, so we just need to `defineProperty` instead:
+
+{% highlight javascript %}
+
+// Venn properties
+Object.defineProperty(venn_prototype, "union", {
+    value : _union,
+    writable : false,
+    enumerable : false
+});
+
+{% endhighlight javascript %}
+
+The key here is to set `enumerable` to false and job done. Soon after this change I had the intersection and union functions ready. I went on a break from venn and I only returned to it a couple of months ago when I noticed I had a few downloads on npm. At that point I felt the urge to take another look at the code and finish it by implementing custom key functions.
+
+### keeping state
+
+As you can imagine implementing the union and intersection was pretty straightforward. I didn't go nuts on the implementation, I've sacrificed memory for performance, and I was quite happy with the end result.
+
+At this point not providing access to a custom key function renderer the library useless. For simple objects the default behaviour (string hash) can be used, but even so I don't recommend it and in the future I might even remove it. If you want to test something very quickly it does the job, but I wouldn't ship anything using venn without a custom key function.
+
+Again, I thought implementing the `keyFunction` property would be a five minute job, but again, it wasn't, at least for me. Why was that?
+
+Take a look at the `union` implementation before the implementation of `keyFunction` :
+
+{% highlight javascript %}
+
+var _union = function(set) {
+
+    var map = this.concat(set)
+      .reduce(function(curr, next) {
+        curr[uid(next)] = next
+        return curr
+      }, {})
+
+    var result = []
+    for (var key in map) {
+      result.push(map[key])
+    }
+
+    arraySubclass(result, venn_prototype)
+
+    return result
+  }
+
+{% endhighlight javascript %}
+
+If you see the code for `intersection` the two last lines are the same. So why do I call `arraySubClass` before returning? I've used `array.reduce` and `array.concat`. These methods obvisouly return a pure array and not a venn array, so before I return the result I re-decorate the array with the venn methods. I didn't mind this trade off because the code reads so much better using native array methods and come on, I'm adding 2 properties for each operation, it's nothing.
+
+Again, I wrote my tests for the custom key function and the API was (and still is) something like this:
+
+{% highlight javascript %}
+
+    venn.create(["i","n","p","u","t"], myKeyFunction)
+
+{% endhighlight javascript %}
+
+At creation time the developer has the option to pass his own custom key function, which is saved for the lifetime of this specific venn object, in theory at least...
+
+Oh no! I loose the `keyFunction` as soon as a `union` or `intersection` is executed. The `arraySubClass` only decorates the array with the methods, I don't save the function anywhere before I start calling native array methods. A couple of solutions came into mind
+
+**Backup and restore**
+
+In retrospective I could have choose this path. Why didn't I? Because I wanted to know how would I fix this problem if I was adding properties from time to time. If this was the scenario I really don't want to keep a list of properties I backup/restore. I could also try to make this a bit more dynamic by iterating over the object to look for special annotated properties, but then I would probably be where I started, when the venn array was outputting the methods as part of the contents.
+
+**Keep the poor object**
+
+If the original problem was caused by creating new array instances every time I used a native array method, why not just avoid that? The last version of venn doesn't use a single native array method, not a big deal but it forced me to write a few more lines of code. More than that, it uses in-place algorithms to keep the instance alive, and thus, not destroying any previous set state. Take a look at the new `union` implementation:
+
+{% highlight javascript %}
+
+  var _intersection = function(set) {
+
+    var that = this
+
+    if(!set || set.length == 0 || !this || this.length == 0) {
+      this.length = 0
+    } else {
+
+      var copiedVenn = [].concat(this)
+        , visited = {}
+        , key
+
+      this.length = 0
+
+      set.forEach(function(element) {
+        visited[getKey.call(that,element)] = true
+      })
+
+      copiedVenn.forEach(function(element) {
+
+        key = getKey.call(that,element)
+        if( visited[key] ) {
+          that.push(element)
+          delete visited[key]
+        }
+      })
+    }
+
+    return this
+  }
+
+{% endhighlight javascript %}
+
+My approach to this was to *fool* the venn object setting it's `length` to zero, and adding back elements according to the operation being executed. This way I don't need to worry about backups, restores and I also don't need to do the `arraySubClass` more than once per venn instance.
+
+## tl;dr... the whole article
+
+After the custom `keyFunction` I just implemented a `not` and added a bit of task automation with [grunt](http://gruntjs.com/). Venn is a very humble library, I used it to keep me distracted and at the same time to develop something I plan to use in other projects. I invite everyone interested to take a look at the [source code](https://github.com/bitoiu/venn) and provide any kind of feedback. I bet there are a lot of different options I didn't explore for some of the problems and who knows, some of them might be improvements I end up making ;)
