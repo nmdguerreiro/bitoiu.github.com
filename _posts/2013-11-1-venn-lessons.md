@@ -19,7 +19,7 @@ When I goggled for set operation libraries, a lot of the usual suspects came bac
 
 So then there was I named it [venn](http://bitoiu.github.io/venn/), a fluent API for set operations. And this post is about some of the design options I did, along with unexpected problems and the solutions employed. If you're looking for excitement, you're in the wrong website.
 
-## the beginning - class approach
+##the beginning - class approach
 
 Because I still have a bit of OO in my blood and because the more I code in Javascript the less I feel the need to implement classes, I thought I had upon me a very good chance to do exactly that: encapsulate all these nice set operations into a neatly little class called venn.
 
@@ -40,7 +40,7 @@ set.result()
 
 It hurts to think I initially looked at this and saw a good enough solution, it was not. The `result` operation just seems excessive, and since I return an pure array at that point, I cannot chain it. The other drawback is that I cannot chain to the constructor, unless I enclose the creation within a pair of brackets.
 
-## array approach
+##array approach
 
 Gladly I know a guy or two that do amazing code reviews and one of them, [@sammyt](https://github.com/sammyt) asked me if I had though about making venn just a plain array, much like [d3](http://d3js.org/). Yes sir, I want it to be just a plain array.
 
@@ -72,11 +72,11 @@ console.log(set) // [2,3,4,1]
 
 {% endhighlight javascript %}
 
-## gotchas
+##gotchas
 
 There were a couple of things that although simple to solve were not initially part of my plans.
 
-### iterable properties
+###iterable properties
 
 So I re-wrote my tests with the new API based on the design shown above. My first approach to define the `union` method was something like this:
 
@@ -118,7 +118,7 @@ The key here is to set `enumerable` to false and job done. Soon after this chang
 
 After this, I took a break from venn, and it was until I noticed I had a few downloads on npm that I though of finishing it. At that point I felt the urge to take another look at the code and complete it by implementing custom key functions and the `not` operation.
 
-### keeping state
+###keeping state
 
 At this point not providing access to a custom key function renderer the library almost useless. For simple objects the default behaviour (object to string hash) could be used, but I would never ship production code with it.
 
@@ -205,6 +205,6 @@ If the original problem was caused by creating new array instances every time I 
 
 My approach to this was to *fool* the object's length by setting it to zero, and adding back elements according to the operation being executed. This way I don't need to worry about backups, restores and I also don't need to do the `arraySubClass` more than once per venn instance.
 
-## tl;dr... the whole article
+##tl;dr... the whole article
 
 After the custom `keyFunction` I just implemented a `not` and added a bit of task automation with [grunt](http://gruntjs.com/). Venn is a very humble library, I used it to keep me distracted and at the same time to develop something I plan to use in other projects. I invite everyone interested to take a look at the [source code](https://github.com/bitoiu/venn) and provide any kind of feedback. I bet there are a lot of different options for some of the problems and I would be glad to hear about them.
