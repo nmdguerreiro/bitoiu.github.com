@@ -11,19 +11,19 @@ image:
 comments: true  
 ---
 
-One of these days I was writing a node command tool, the 10th or so mini-project I wouldn't finish. This pet-project, which I still plan to finish is a a tool to quickly delete git branches.  While writing the first prototypes, I came upon a pattern where I would have list of branches that I needed to merge or intersect. For example, if I wanted to delete only merged local branches, that would be an intersection between all local branches with all local merged branches. I though I would give this approach a try, knowing from the start that in terms of performance I could eventually do better, but in terms of code simplicity I assumed this would be a better choice.
+One of these days, I was writing a node command tool, the 10th or so mini-project I wouldn't finish. This pet-project, which I still plan to finish is a a tool to quickly delete git branches.  While writing the first prototypes, I stumbled upon a pattern where I would have list of branches that I needed to merge or intersect. For example, if I wanted to delete only merged local branches, that would be an intersection between all local branches with all local merged branches. I thought I would give this approach a try, knowing from the start that in terms of performance I could eventually do better, but in terms of code simplicity I assumed this would be a better choice.
 
 When I goggled for set operation libraries, a lot of the usual suspects came back in the results, most notably [underscore](http://underscorejs.org). That was it, if I wanted I could just add this library to my dependencies but the reason I go home and code is to be able to work on whatever I feel like, and that particular night, I felt like I really wanted to use a fluent API instead of underscore's good, community approved and tested but imperative solution. I was making excuses to do my own standalone library.
 
 ##[venn](http://bitoiu.github.io/venn/)
 
-So then there was I named it [venn](http://bitoiu.github.io/venn/), a fluent API for set operations. And this post is about some of the design options I did, along with unexpected problems and the solutions employed. If you're looking for excitement, you're in the wrong website.
+So then there was it, I named it [venn](http://bitoiu.github.io/venn/), a fluent API for set operations. And this post is about some of the design options I did, along with unexpected problems and the solutions employed. If you're looking for excitement, you're in the wrong website.
 
 ##the beginning - class approach
 
 Because I still have a bit of OO in my blood and because the more I code in Javascript the less I feel the need to implement classes, I thought I had upon me a very good chance to do exactly that: encapsulate all these nice set operations into a neatly little class called venn.
 
-As soon as I started writing the tests, something didn't feel quite right, but I couldn't put a finger on it. I can't remember precisely but I had something which should be very similar to this:
+As soon as I started writing the tests, something didn't feel quite right, but I couldn't put a finger to it. I can't remember precisely but I had something which should be very similar to this:
 
 {% highlight javascript %}
 
@@ -38,7 +38,7 @@ set.result()
 
 {% endhighlight javascript %}
 
-It hurts to think I initially looked at this and saw a good enough solution, it was not. The `result` operation just seems excessive, and since I return an pure array at that point, I cannot chain it. The other drawback is that I cannot chain to the constructor, unless I enclose the creation within a pair of brackets.
+It hurts to think I initially looked at this and saw a good enough solution: it was not. The `result` operation just seems excessive, and since I return a pure array at that point, I cannot chain it. The other drawback is that I cannot chain the constructor, unless I enclose the creation within a pair of brackets.
 
 ##array approach
 
@@ -74,7 +74,7 @@ console.log(set) // [2,3,4,1]
 
 ##gotchas
 
-There were a couple of things that although simple to solve were not initially part of my plans.
+There were a couple of things that, although simple to solve, were not initially part of my plans.
 
 ###iterable properties
 
@@ -113,10 +113,10 @@ Object.defineProperty(venn_prototype, "union", {
 
 {% endhighlight javascript %}
 
-The key here is to set `enumerable` to false and job done. Soon after this change I had the intersection and union functions ready.
+The key here is to set `enumerable` to false and job done. Soon after this change, I had the intersection and union functions ready.
 
 
-After this, I took a break from venn, and it was until I noticed I had a few downloads on npm that I though of finishing it. At that point I felt the urge to take another look at the code and complete it by implementing custom key functions and the `not` operation.
+After this, I took a break from venn, and it was until I noticed I had a few downloads on npm that I thought of finishing it. At that point I felt the urge to take another look at the code and complete it by implementing custom key functions and the `not` operation.
 
 ###keeping state
 
@@ -156,13 +156,13 @@ I wrote my tests for the custom key function and the API was (and still is) some
 
 {% endhighlight javascript %}
 
-At creation time the developer has the option to pass his own custom key function, which is saved for the lifetime of this specific venn object, or that was my plan at least.
+At creation time, the developer has the option to pass his own custom key function, which is saved for the lifetime of this specific venn object, or that was my plan at least.
 
 The truth is, I was loosing the `keyFunction` value as soon as a `union` or `intersection` was executed. The `arraySubClass` works fine to add constant properties, in this case method definitions. When we want to track state, in this case a `keyFunction` value, this approach by itself needs to be adapted.
 
 **Backup and restore**
 
-One of the first options that came into mind was to backup the properties before calling the native methods and restore them after `arraySubClass`. In retrospective If it was today I would have adopted this solution, but at the time, I was more focused on finding a pattern that would not require maintenance if more properties were added. I discarded a solution that would involve iterating the venn array looking for special named properties since I removed made them non-enumerable in the first place.
+One of the first options that came into mind was to backup the properties before calling the native methods and restore them after `arraySubClass`. In retrospective, if it was today, I would have adopted this solution, but at the time, I was more focused on finding a pattern that would not require maintenance if more properties were added. I discarded a solution that would involve iterating through the venn array and looking for special named properties since I removed made them non-enumerable in the first place.
 
 **Avoid destroying the original object**
 
